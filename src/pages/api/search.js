@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import mockDatabase from '../../lib/mockDatabase';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -11,24 +9,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Search query is required' });
       }
 
-      const entries = await prisma.entry.findMany({
-        where: {
-          OR: [
-            { title: { contains: q } },
-            { location: { contains: q } },
-            { notes: { contains: q } },
-            { tags: { some: { name: { contains: q } } } },
-          ],
-        },
-        include: {
-          tags: true,
-        },
-        orderBy: {
-          date: 'desc',
-        },
-      });
+      const entries = await mockDatabase.entry.findMany();
+      const results = entries.filter(entry => 
+        entry.title.toLowerCase().includes(q.toLowerCase()) ||
+        entry.location.toLowerCase().includes(q.toLowerCase()) ||
+        entry.notes.toLowerCase().includes(q.toLowerCase()) ||
+        entry.tags.some(tag => tag.toLowerCase().includes(q.toLowerCase()))
+      );
 
-      res.status(200).json(entries);
+      res.status(200).json(results);
     } catch (error) {
       console.error('Search error:', error);
       res.status(500).json({ error: 'Failed to perform search' });

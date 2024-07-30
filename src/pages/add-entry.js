@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
-import PhotoSelector from '@/components/PhotoSelector';
+import { motion } from "framer-motion";
 
 export default function AddEntry() {
   const router = useRouter();
@@ -21,36 +21,22 @@ export default function AddEntry() {
     tags: [],
   });
   const [loading, setLoading] = useState(false);
-  const [photo, setPhoto] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEntry((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePhotoSelect = (file) => {
-    setPhoto(file);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const formData = new FormData();
-      Object.keys(entry).forEach(key => {
-        if (key === 'tags') {
-          formData.append(key, JSON.stringify(entry[key]));
-        } else {
-          formData.append(key, entry[key]);
-        }
-      });
-      if (photo) {
-        formData.append('photo', photo);
-      }
-
       const response = await fetch('/api/entries', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(entry),
       });
 
       if (!response.ok) {
@@ -74,7 +60,13 @@ export default function AddEntry() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="container mx-auto px-4 py-8"
+    >
       <Card>
         <CardHeader>
           <CardTitle>Add New Catch</CardTitle>
@@ -110,10 +102,6 @@ export default function AddEntry() {
                 onChange={(e) => setEntry((prev) => ({ ...prev, tags: e.target.value.split(',').map((tag) => tag.trim()) }))}
               />
             </div>
-            <div>
-              <Label>Photo</Label>
-              <PhotoSelector onPhotoSelect={handlePhotoSelect} />
-            </div>
             <div className="flex justify-between">
               <Button type="button" variant="outline" onClick={() => router.push('/')} disabled={loading}>
                 Cancel
@@ -126,6 +114,6 @@ export default function AddEntry() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
