@@ -1,7 +1,11 @@
-import prisma from '../../../lib/prisma';
+import prisma from '../../../lib/prismaClient';
 
 export default async function handler(req, res) {
   try {
+    if (!prisma) {
+      throw new Error('Prisma client is not initialized');
+    }
+
     if (req.method === 'GET') {
       console.log('Fetching entries...');
       const entries = await prisma.entry.findMany({

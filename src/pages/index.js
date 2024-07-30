@@ -38,7 +38,7 @@ export default function Home() {
       setEntries(data);
     } catch (error) {
       console.error('Error fetching entries:', error);
-      setError(error.message);
+      setError('Failed to load entries. Please try again later.');
       toast({
         title: "Error",
         description: "Failed to load entries. Please try again later.",
