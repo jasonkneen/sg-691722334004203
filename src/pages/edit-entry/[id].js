@@ -6,7 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function EditEntry() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export default function EditEntry() {
   const { toast } = useToast();
   const [entry, setEntry] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -31,7 +34,7 @@ export default function EditEntry() {
       setEntry({
         ...data,
         date: new Date(data.date).toISOString().split('T')[0],
-        tags: data.tags.map(tag => tag.name).join(', '),
+        tags: data.tags.join(', '),
       });
     } catch (error) {
       toast({
@@ -84,6 +87,34 @@ export default function EditEntry() {
     }
   };
 
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/entries/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete entry');
+      }
+
+      toast({
+        title: "Success",
+        description: "Entry deleted successfully!",
+      });
+      router.push('/');
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete entry. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+      setDeleteDialogOpen(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -97,10 +128,38 @@ export default function EditEntry() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="container mx-auto px-4 py-8"
+    >
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Edit Catch</CardTitle>
+          <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="destructive" size="icon">
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure you want to delete this entry?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete your catch entry.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+                  {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -145,6 +204,6 @@ export default function EditEntry() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

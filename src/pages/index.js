@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -53,7 +54,13 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="container mx-auto px-4 py-8"
+    >
       <h1 className="text-3xl font-bold mb-6">Recent Catches</h1>
       {loading ? (
         <div className="flex justify-center items-center h-64">
@@ -66,29 +73,40 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (
-            <Card key={entry.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>{entry.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <img src={entry.imageUrl || `/api/placeholder/400/300`} alt="Fish" className="w-full h-40 object-cover mb-4 rounded" />
-                <p className="text-sm text-muted-foreground mb-2">Location: {entry.location}</p>
-                <p className="text-sm text-muted-foreground mb-4">Date: {new Date(entry.date).toLocaleDateString()}</p>
-                <Link href={`/entry/${entry.id}`} passHref>
-                  <Button className="w-full">View Details</Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>{entry.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <img src={entry.imageUrl || `/api/placeholder/400/300`} alt="Fish" className="w-full h-40 object-cover mb-4 rounded" />
+                  <p className="text-sm text-muted-foreground mb-2">Location: {entry.location}</p>
+                  <p className="text-sm text-muted-foreground mb-4">Date: {new Date(entry.date).toLocaleDateString()}</p>
+                  <Link href={`/entry/${entry.id}`} passHref>
+                    <Button className="w-full">View Details</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       )}
-      <div className="fixed bottom-4 right-4">
+      <motion.div
+        className="fixed bottom-4 right-4"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
         <Link href="/add-entry" passHref>
           <Button size="lg" className="rounded-full w-16 h-16">
-            <span className="text-2xl">+</span>
+            <PlusCircle className="h-6 w-6" />
           </Button>
         </Link>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
