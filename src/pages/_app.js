@@ -12,7 +12,17 @@ const ErrorFallback = ({ error }) => (
   </div>
 );
 
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
+  if (typeof window === 'undefined') {
+    return (
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -28,3 +38,5 @@ export default function App({ Component, pageProps }) {
     </ErrorBoundary>
   );
 }
+
+export default MyApp;

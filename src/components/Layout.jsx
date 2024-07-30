@@ -12,9 +12,11 @@ const ErrorFallback = ({ error }) => (
 );
 
 const Layout = ({ children }) => {
+  console.log('Layout is being rendered');
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    console.log('Layout useEffect is running');
     const checkIsDesktop = () => {
       setIsDesktop(window.innerWidth >= 1024);
     };
