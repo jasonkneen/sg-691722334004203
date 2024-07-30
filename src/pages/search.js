@@ -1,43 +1,33 @@
-import { useState, useEffect } from 'react';
-import SplashScreen from '@/components/SplashScreen';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 
-export default function Home() {
-  const [showSplash, setShowSplash] = useState(true);
-  const [entries, setEntries] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function SearchPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 3000);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) return;
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!showSplash) {
-      fetchEntries();
-    }
-  }, [showSplash]);
-
-  const fetchEntries = async () => {
+    setLoading(true);
     try {
-      const response = await fetch('/api/entries');
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch entries');
+        throw new Error('Failed to fetch search results');
       }
       const data = await response.json();
-      setEntries(data);
+      setResults(data);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to load entries. Please try again.",
+        description: "Failed to perform search. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -45,20 +35,27 @@ export default function Home() {
     }
   };
 
-  if (showSplash) {
-    return <SplashScreen />;
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Recent Catches</h1>
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin" />
+      <h1 className="text-3xl font-bold mb-6">Search Catches</h1>
+      <form onSubmit={handleSearch} className="mb-8">
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="Search by title, location, or tag..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-grow"
+          />
+          <Button type="submit" disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+          </Button>
         </div>
-      ) : (
+      </form>
+
+      {results.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {entries.map((entry) => (
+          {results.map((entry) => (
             <Card key={entry.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>{entry.title}</CardTitle>
@@ -74,14 +71,9 @@ export default function Home() {
             </Card>
           ))}
         </div>
+      ) : (
+        <p className="text-center text-muted-foreground">No results found. Try a different search term.</p>
       )}
-      <div className="fixed bottom-4 right-4">
-        <Link href="/add-entry" passHref>
-          <Button size="lg" className="rounded-full w-16 h-16">
-            <span className="text-2xl">+</span>
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 }
