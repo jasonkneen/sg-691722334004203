@@ -6,12 +6,12 @@ import { ThemeToggle } from './ThemeToggle';
 const Layout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col dark:bg-gray-900 dark:text-white">
-      <header className="bg-background border-b border-border p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Fishing Journal</h1>
-        <ThemeToggle />
+      <header className="bg-background border-b border-border p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-10">
+      <h1 className="text-2xl font-bold">Piscator</h1>
+      <ThemeToggle />
       </header>
-      <main className="flex-grow">{children}</main>
-      <nav className="bg-background border-t border-border">
+      <main>{children}</main>
+      <nav className="bg-secondary border-t-border bottom-0 left-0 right-0 z-10 fixed">
         <div className="container mx-auto px-4">
           <ul className="flex justify-around py-2">
             <li>

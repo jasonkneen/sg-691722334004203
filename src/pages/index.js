@@ -91,7 +91,7 @@ export default function Home() {
                   <p className="text-sm text-muted-foreground mb-2">Location: {entry.location}</p>
                   <p className="text-sm text-muted-foreground mb-4">Date: {new Date(entry.date).toLocaleDateString()}</p>
                   <Link href={`/entry/${entry.id}`} passHref>
-                    <Button className="w-full">View Details</Button>
+                    <Button className="w-full bg-secondary">View Details</Button>
                   </Link>
                 </CardContent>
               </Card>
@@ -100,13 +100,13 @@ export default function Home() {
         </div>
       )}
       <motion.div
-        className="fixed bottom-4 right-4"
+        className="fixed bottom-20 right-4"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
         <Link href="/add-entry" passHref>
-          <Button size="lg" className="rounded-full w-16 h-16">
-            <PlusCircle className="h-6 w-6" />
+          <Button size="lg" className="rounded-full w-16 h-16 z-50 bg-secondary">
+            <PlusCircle className="h-6 w-6 text-white" />
           </Button>
         </Link>
       </motion.div>
