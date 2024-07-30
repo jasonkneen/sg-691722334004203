@@ -76,6 +76,25 @@
   }
 }
 
+<<<<<<< HEAD
+/* Device-specific styles */
+@media (max-width: 375px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  html {
+    font-size: 18px;
+  }
+=======
 /* Add these new styles */
 @layer components {
   .phone-container {
@@ -98,4 +117,5 @@
 .phone-container {
   width: 375px;
   height: 700px;
+>>>>>>> origin/main
 }
