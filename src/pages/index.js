@@ -10,6 +10,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -35,6 +36,8 @@ export default function Home() {
       const data = await response.json();
       setEntries(data);
     } catch (error) {
+      console.error('Error fetching entries:', error);
+      setError('Failed to load entries. Please try again later.');
       toast({
         title: "Error",
         description: "Failed to load entries. Please try again.",
@@ -56,6 +59,8 @@ export default function Home() {
         <div className="flex justify-center items-center h-64">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (
