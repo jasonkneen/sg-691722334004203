@@ -33,7 +33,8 @@ export default function Home() {
       console.log('Fetching entries...');
       const response = await fetch('/api/entries');
       if (!response.ok) {
-        throw new Error('Failed to fetch entries');
+        const errorData = await response.text();
+        throw new Error(errorData || 'Failed to fetch entries');
       }
       const data = await response.json();
       console.log('Entries fetched:', data);
