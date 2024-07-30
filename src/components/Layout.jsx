@@ -16,9 +16,11 @@ const ErrorFallback = ({ error }) => (
 const Layout = ({ children }) => {
   console.log('Layout is being rendered');
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     console.log('Layout useEffect is running');
+    setIsMounted(true);
     const checkIsDesktop = () => {
       setIsDesktop(window.innerWidth >= 1024);
     };
@@ -26,6 +28,10 @@ const Layout = ({ children }) => {
     window.addEventListener('resize', checkIsDesktop);
     return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
+
+  if (!isMounted) {
+    return <div className="min-h-screen bg-background">{children}</div>;
+  }
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

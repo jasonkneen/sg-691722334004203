@@ -24,14 +24,20 @@ function MyApp({ Component, pageProps }) {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <DynamicDeviceWrapper>
+        {typeof window === 'undefined' ? (
           <Layout>
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <Component {...pageProps} />
-            </ErrorBoundary>
-            <Toaster />
+            <Component {...pageProps} />
           </Layout>
-        </DynamicDeviceWrapper>
+        ) : (
+          <DynamicDeviceWrapper>
+            <Layout>
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+              <Toaster />
+            </Layout>
+          </DynamicDeviceWrapper>
+        )}
       </ThemeProvider>
     </ErrorBoundary>
   );
