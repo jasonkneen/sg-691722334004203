@@ -17,9 +17,9 @@ export default async function handler(req, res) {
           location,
           notes,
           imageUrl,
-          date: new Date(date),
+          date: new Date(date).toISOString(),
           userId: 1, // Temporary: connect to a default user
-          tags: tags.map(tag => ({ name: tag })),
+          tags: tags,
         },
       });
       console.log('Entry created successfully:', entry.id);

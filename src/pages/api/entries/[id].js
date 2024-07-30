@@ -14,10 +14,18 @@ export default async function handler(req, res) {
       }
     } else if (req.method === 'PUT') {
       const updatedEntry = await mockDatabase.entry.update({ id: parseInt(id) }, { data: req.body });
-      res.status(200).json(updatedEntry);
+      if (updatedEntry) {
+        res.status(200).json(updatedEntry);
+      } else {
+        res.status(404).json({ error: 'Entry not found' });
+      }
     } else if (req.method === 'DELETE') {
-      await mockDatabase.entry.delete({ id: parseInt(id) });
-      res.status(204).end();
+      const deletedEntry = await mockDatabase.entry.delete({ id: parseInt(id) });
+      if (deletedEntry) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ error: 'Entry not found' });
+      }
     } else {
       res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
       res.status(405).json({ error: `Method ${req.method} Not Allowed` });

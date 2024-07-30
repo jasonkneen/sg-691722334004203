@@ -30,6 +30,9 @@ export default function EditEntry() {
     try {
       const response = await fetch(`/api/entries/${id}`);
       if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Entry not found');
+        }
         throw new Error('Failed to fetch entry');
       }
       const data = await response.json();
@@ -39,10 +42,10 @@ export default function EditEntry() {
         tags: data.tags.join(', '),
       });
     } catch (error) {
-      setError('Failed to load entry. Please try again.');
+      setError(error.message);
       toast({
         title: "Error",
-        description: "Failed to load entry. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -66,6 +69,7 @@ export default function EditEntry() {
         },
         body: JSON.stringify({
           ...entry,
+          date: new Date(entry.date).toISOString(),
           tags: entry.tags.split(',').map(tag => tag.trim()),
         }),
       });
@@ -82,7 +86,7 @@ export default function EditEntry() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to update entry. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -109,7 +113,7 @@ export default function EditEntry() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to delete entry. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
