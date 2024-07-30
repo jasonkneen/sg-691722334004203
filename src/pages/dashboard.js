@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { ErrorBoundary } from 'react-error-boundary';
 
+console.log('Dashboard module is being loaded');
+
 const ErrorFallback = ({ error }) => (
   <div className="text-center text-red-500">
     <h1>Something went wrong:</h1>

@@ -5,6 +5,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ThemeProvider } from "next-themes";
 import dynamic from 'next/dynamic';
 
+console.log('_app module is being loaded');
+
 const DynamicDeviceWrapper = dynamic(() => import('@/components/DeviceWrapper'), {
   ssr: false
 });
@@ -17,6 +19,8 @@ const ErrorFallback = ({ error }) => (
 );
 
 function MyApp({ Component, pageProps }) {
+  console.log('MyApp is being rendered');
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

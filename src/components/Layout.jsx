@@ -4,6 +4,8 @@ import { Home, PlusCircle, Search, User } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { ErrorBoundary } from 'react-error-boundary';
 
+console.log('Layout module is being loaded');
+
 const ErrorFallback = ({ error }) => (
   <div className="text-center text-red-500">
     <h1>Something went wrong in the layout:</h1>
@@ -52,7 +54,11 @@ const Layout = ({ children }) => {
             </div>
           </nav>
         )}
-        <main className="flex-grow overflow-auto">{children}</main>
+        <main className="flex-grow overflow-auto">
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            {children}
+          </ErrorBoundary>
+        </main>
         {!isDesktop && (
           <nav className="bg-background border-t border-border mt-auto">
             <div className="container mx-auto px-4">
