@@ -1,6 +1,7 @@
 import mockDatabase from '../../../lib/mockDatabase';
 
 export default async function handler(req, res) {
+  console.log('API route /api/entries called');
   try {
     if (req.method === 'GET') {
       console.log('Fetching entries...');

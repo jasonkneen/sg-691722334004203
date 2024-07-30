@@ -30,11 +30,13 @@ export default function Home() {
 
   const fetchEntries = async () => {
     try {
+      console.log('Fetching entries...');
       const response = await fetch('/api/entries');
       if (!response.ok) {
         throw new Error('Failed to fetch entries');
       }
       const data = await response.json();
+      console.log('Entries fetched:', data);
       setEntries(data);
     } catch (error) {
       console.error('Error fetching entries:', error);
