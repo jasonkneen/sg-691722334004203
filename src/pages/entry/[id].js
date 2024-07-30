@@ -24,6 +24,7 @@ export default function EntryView() {
 
   const fetchEntry = async () => {
     try {
+      console.log(`Fetching entry with id: ${id}`);
       const response = await fetch(`/api/entries/${id}`);
       if (!response.ok) {
         if (response.status === 404) {
@@ -32,8 +33,10 @@ export default function EntryView() {
         throw new Error('Failed to fetch entry');
       }
       const data = await response.json();
+      console.log('Entry data:', data);
       setEntry(data);
     } catch (error) {
+      console.error('Error fetching entry:', error);
       setError(error.message);
       toast({
         title: "Error",
@@ -101,7 +104,7 @@ export default function EntryView() {
           <div>
             <p className="font-semibold mb-2">Tags:</p>
             <div className="flex flex-wrap gap-2">
-              {entry.tags.map((tag) => (
+              {entry.tags && entry.tags.map((tag) => (
                 <span key={tag} className="bg-secondary text-secondary-foreground px-2 py-1 rounded-full text-sm">
                   {tag}
                 </span>
