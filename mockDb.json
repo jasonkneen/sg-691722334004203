@@ -1,1 +1,24 @@
-{"entries":[],"tags":[],"users":[{"id":1,"email":"test@example.com","name":"Test User"}]}
+{
+  "entries": [
+    {
+      "id": 1,
+      "title": "Test Entry",
+      "date": "2024-07-30T15:53:16.169Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Test Entry",
+      "date": "2024-07-30T15:53:31.952Z",
+      "userId": 1
+    }
+  ],
+  "tags": [],
+  "users": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "name": "Test User"
+    }
+  ]
+}

@@ -6,10 +6,10 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       console.log('Fetching entries...');
       const entries = await mockDatabase.entry.findMany();
-      console.log(`Found ${entries.length} entries`);
+      console.log(`Found ${entries.length} entries:`, entries);
       res.status(200).json(entries);
     } else if (req.method === 'POST') {
-      console.log('Creating new entry...');
+      console.log('Creating new entry...', req.body);
       const { title, weight, location, notes, imageUrl, date, tags } = req.body;
       const entry = await mockDatabase.entry.create({
         data: {
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
           tags: tags,
         },
       });
-      console.log('Entry created successfully:', entry.id);
+      console.log('Entry created successfully:', entry);
       res.status(201).json(entry);
     } else {
       res.setHeader('Allow', ['GET', 'POST']);

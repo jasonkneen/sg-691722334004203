@@ -2,7 +2,7 @@ import mockDatabase from '../../../lib/mockDatabase';
 
 export default async function handler(req, res) {
   const { id } = req.query;
-  console.log(`API route /api/entries/${id} called`);
+  console.log(`API route /api/entries/${id} called, method: ${req.method}`);
 
   try {
     if (req.method === 'GET') {
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         res.status(404).json({ error: 'Entry not found' });
       }
     } else if (req.method === 'PUT') {
-      console.log(`Updating entry with id: ${id}`);
+      console.log(`Updating entry with id: ${id}`, req.body);
       const updatedEntry = await mockDatabase.entry.update({ id: parseInt(id) }, { data: req.body });
       if (updatedEntry) {
         console.log('Entry updated:', updatedEntry);
