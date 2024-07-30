@@ -56,6 +56,7 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (
+<<<<<<< HEAD
             <Card key={entry.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>{entry.title}</CardTitle>
@@ -73,9 +74,39 @@ export default function Home() {
         </div>
       )}
       <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
+=======
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>{entry.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <img src={entry.imageUrl || `/api/placeholder/400/300`} alt="Fish" className="w-full h-40 object-cover mb-4 rounded" />
+                  <p className="text-sm text-muted-foreground mb-2">Location: {entry.location}</p>
+                  <p className="text-sm text-muted-foreground mb-4">Date: {new Date(entry.date).toLocaleDateString()}</p>
+                  <Link href={`/entry/${entry.id}`} passHref>
+                    <Button className="w-full bg-secondary">View Details</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      )}
+      <motion.div
+        className="fixed bottom-20 right-4"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+>>>>>>> origin/main
         <Link href="/add-entry" passHref>
-          <Button size="lg" className="rounded-full w-16 h-16">
-            <PlusCircle className="h-6 w-6" />
+          <Button size="lg" className="rounded-full w-16 h-16 z-50 bg-secondary">
+            <PlusCircle className="h-6 w-6 text-white" />
           </Button>
         </Link>
       </div>

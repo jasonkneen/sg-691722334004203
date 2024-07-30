@@ -3,8 +3,14 @@
     {
       "id": 1,
       "title": "Test Entry",
-      "date": "2024-07-30T15:53:16.169Z",
-      "userId": 1
+      "date": "2024-07-30T00:00:00.000Z",
+      "userId": 1,
+      "tags": [
+        "we’re",
+        "ewewew",
+        "we’re",
+        "er"
+      ]
     },
     {
       "id": 2,

@@ -29,10 +29,16 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
-  if (!isMounted) {
+  if (typeof window === 'undefined') {
+    console.log('Rendering server-side layout');
     return <div className="min-h-screen bg-background">{children}</div>;
   }
 
+  if (!isMounted) {
+    return null;
+  }
+
+  console.log('Rendering client-side layout');
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="flex flex-col h-full dark:bg-gray-900 dark:text-white">

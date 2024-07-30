@@ -17,24 +17,38 @@ const ErrorFallback = ({ error }) => (
   </div>
 );
 
+const ServerDashboardContent = () => (
+  <div className="bg-white p-6 rounded-lg shadow-md">
+    <h2 className="text-2xl font-semibold mb-4">Welcome to your Fishing Journal Dashboard</h2>
+    <p>This is a placeholder for your dashboard content.</p>
+    <div className="mt-4">
+      <LoadingSpinner />
+    </div>
+  </div>
+);
+
+const ClientDashboardContent = () => (
+  <DynamicCard>
+    <DynamicCardHeader>
+      <DynamicCardTitle>Welcome to your Fishing Journal Dashboard</DynamicCardTitle>
+    </DynamicCardHeader>
+    <DynamicCardContent>
+      <p>This is a placeholder for your dashboard content.</p>
+      <div className="mt-4">
+        <LoadingSpinner />
+      </div>
+    </DynamicCardContent>
+  </DynamicCard>
+);
+
 const DashboardContent = () => {
   console.log('DashboardContent is being rendered');
   if (typeof window === 'undefined') {
-    return <div>Loading dashboard...</div>;
+    console.log('Rendering server-side dashboard content');
+    return <ServerDashboardContent />;
   }
-  return (
-    <DynamicCard>
-      <DynamicCardHeader>
-        <DynamicCardTitle>Welcome to your Fishing Journal Dashboard</DynamicCardTitle>
-      </DynamicCardHeader>
-      <DynamicCardContent>
-        <p>This is a placeholder for your dashboard content.</p>
-        <div className="mt-4">
-          <LoadingSpinner />
-        </div>
-      </DynamicCardContent>
-    </DynamicCard>
-  );
+  console.log('Rendering client-side dashboard content');
+  return <ClientDashboardContent />;
 };
 
 const Dashboard = () => {

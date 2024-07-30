@@ -11,12 +11,15 @@ const DynamicDeviceWrapper = dynamic(() => import('@/components/DeviceWrapper'),
   ssr: false
 });
 
-const ErrorFallback = ({ error }) => (
-  <div className="text-center text-red-500">
-    <h1>Something went wrong:</h1>
-    <pre>{error.message}</pre>
-  </div>
-);
+const ErrorFallback = ({ error }) => {
+  console.error('Error in _app.js:', error);
+  return (
+    <div className="text-center text-red-500">
+      <h1>Something went wrong:</h1>
+      <pre>{error.message}</pre>
+    </div>
+  );
+};
 
 const ServerErrorBoundary = ({ children }) => {
   if (typeof window === 'undefined') {
