@@ -1,10 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    try {
+  try {
+    if (req.method === 'GET') {
       console.log('Fetching entries...');
       const entries = await prisma.entry.findMany({
         include: { tags: true },
@@ -12,12 +10,7 @@ export default async function handler(req, res) {
       });
       console.log(`Found ${entries.length} entries`);
       res.status(200).json(entries);
-    } catch (error) {
-      console.error('Error fetching entries:', error);
-      res.status(500).json({ error: 'Failed to fetch entries', details: error.message });
-    }
-  } else if (req.method === 'POST') {
-    try {
+    } else if (req.method === 'POST') {
       console.log('Creating new entry...');
       const { title, weight, location, notes, imageUrl, date, tags } = req.body;
       const entry = await prisma.entry.create({
@@ -40,12 +33,12 @@ export default async function handler(req, res) {
       });
       console.log('Entry created successfully:', entry.id);
       res.status(201).json(entry);
-    } catch (error) {
-      console.error('Error creating entry:', error);
-      res.status(500).json({ error: 'Failed to create entry', details: error.message });
+    } else {
+      res.setHeader('Allow', ['GET', 'POST']);
+      res.status(405).json({ error: `Method ${req.method} Not Allowed` });
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  } catch (error) {
+    console.error('API Error:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 }

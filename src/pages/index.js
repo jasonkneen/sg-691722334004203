@@ -31,8 +31,8 @@ export default function Home() {
     try {
       const response = await fetch('/api/entries');
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.details || 'Failed to fetch entries');
+        const errorData = await response.text();
+        throw new Error(errorData || 'Failed to fetch entries');
       }
       const data = await response.json();
       setEntries(data);
@@ -41,7 +41,7 @@ export default function Home() {
       setError(error.message);
       toast({
         title: "Error",
-        description: error.message,
+        description: "Failed to load entries. Please try again later.",
         variant: "destructive",
       });
     } finally {
