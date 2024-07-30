@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
                 <Link href="/add-entry" className="text-muted-foreground hover:text-foreground">Add Entry</Link>
               </li>
               <li>
-                <Link href="/profile" className="text-muted-foreground hover:text-foreground">Profile</Link>
+                <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">Dashboard</Link>
               </li>
             </ul>
           </div>
@@ -65,9 +65,9 @@ const Layout = ({ children }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/profile" className="flex flex-col items-center text-muted-foreground hover:text-foreground">
+                <Link href="/dashboard" className="flex flex-col items-center text-muted-foreground hover:text-foreground">
                   <User size={24} />
-                  <span className="text-xs mt-1">Profile</span>
+                  <span className="text-xs mt-1">Dashboard</span>
                 </Link>
               </li>
             </ul>
