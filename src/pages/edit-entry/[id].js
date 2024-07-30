@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function EditEntry() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function EditEntry() {
   const [entry, setEntry] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -37,6 +39,7 @@ export default function EditEntry() {
         tags: data.tags.join(', '),
       });
     } catch (error) {
+      setError('Failed to load entry. Please try again.');
       toast({
         title: "Error",
         description: "Failed to load entry. Please try again.",
@@ -120,6 +123,15 @@ export default function EditEntry() {
       <div className="flex justify-center items-center h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
     );
   }
 

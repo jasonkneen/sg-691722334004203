@@ -5,7 +5,23 @@ const dbPath = path.join(process.cwd(), 'mockDb.json');
 
 // Initialize database if it doesn't exist
 if (!fs.existsSync(dbPath)) {
-  fs.writeFileSync(dbPath, JSON.stringify({ entries: [], tags: [], users: [{ id: 1, email: 'test@example.com', name: 'Test User' }] }));
+  const initialData = {
+    entries: [
+      {
+        id: 1,
+        title: 'First Catch',
+        weight: 5.2,
+        location: 'Lake Example',
+        date: new Date('2023-06-15').toISOString(),
+        notes: 'My first big catch of the season!',
+        tags: ['bass', 'summer'],
+        userId: 1
+      }
+    ],
+    tags: ['bass', 'summer'],
+    users: [{ id: 1, email: 'test@example.com', name: 'Test User' }]
+  };
+  fs.writeFileSync(dbPath, JSON.stringify(initialData, null, 2));
 }
 
 const readDb = () => {

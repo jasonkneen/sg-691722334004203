@@ -5,7 +5,8 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const entry = await mockDatabase.entry.findMany().then(entries => entries.find(e => e.id === parseInt(id)));
+      const entries = await mockDatabase.entry.findMany();
+      const entry = entries.find(e => e.id === parseInt(id));
       if (entry) {
         res.status(200).json(entry);
       } else {
