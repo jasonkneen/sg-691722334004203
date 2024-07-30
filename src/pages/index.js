@@ -31,16 +31,17 @@ export default function Home() {
     try {
       const response = await fetch('/api/entries');
       if (!response.ok) {
-        throw new Error('Failed to fetch entries');
+        const errorData = await response.json();
+        throw new Error(errorData.details || 'Failed to fetch entries');
       }
       const data = await response.json();
       setEntries(data);
     } catch (error) {
       console.error('Error fetching entries:', error);
-      setError('Failed to load entries. Please try again later.');
+      setError(error.message);
       toast({
         title: "Error",
-        description: "Failed to load entries. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -61,6 +62,8 @@ export default function Home() {
         </div>
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
+      ) : entries.length === 0 ? (
+        <div className="text-center text-muted-foreground">No entries found. Add your first catch!</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (

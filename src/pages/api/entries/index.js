@@ -5,10 +5,12 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
+      console.log('Fetching entries...');
       const entries = await prisma.entry.findMany({
         include: { tags: true },
         orderBy: { createdAt: 'desc' },
       });
+      console.log(`Found ${entries.length} entries`);
       res.status(200).json(entries);
     } catch (error) {
       console.error('Error fetching entries:', error);
@@ -16,7 +18,8 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'POST') {
     try {
-      const { title, weight, location, notes, imageUrl, date, tags, userId } = req.body;
+      console.log('Creating new entry...');
+      const { title, weight, location, notes, imageUrl, date, tags } = req.body;
       const entry = await prisma.entry.create({
         data: {
           title,
@@ -35,6 +38,7 @@ export default async function handler(req, res) {
         },
         include: { tags: true },
       });
+      console.log('Entry created successfully:', entry.id);
       res.status(201).json(entry);
     } catch (error) {
       console.error('Error creating entry:', error);
