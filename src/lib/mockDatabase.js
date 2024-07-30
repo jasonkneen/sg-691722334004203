@@ -39,6 +39,10 @@ const mockDatabase = {
       const db = readDb();
       return db.entries;
     },
+    findUnique: async (where) => {
+      const db = readDb();
+      return db.entries.find(entry => entry.id === where.id);
+    },
     create: async (data) => {
       const db = readDb();
       const newEntry = { id: db.entries.length + 1, ...data.data };
@@ -54,7 +58,7 @@ const mockDatabase = {
         writeDb(db);
         return db.entries[index];
       }
-      throw new Error('Entry not found');
+      return null;
     },
     delete: async (where) => {
       const db = readDb();
@@ -64,7 +68,7 @@ const mockDatabase = {
         writeDb(db);
         return deletedEntry;
       }
-      throw new Error('Entry not found');
+      return null;
     },
   },
   tag: {

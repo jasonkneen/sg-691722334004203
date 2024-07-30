@@ -39,7 +39,7 @@ export default function EditEntry() {
       setEntry({
         ...data,
         date: new Date(data.date).toISOString().split('T')[0],
-        tags: data.tags.join(', '),
+        tags: Array.isArray(data.tags) ? data.tags.join(', ') : '',
       });
     } catch (error) {
       setError(error.message);
