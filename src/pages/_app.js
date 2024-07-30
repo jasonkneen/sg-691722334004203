@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
       <ErrorBoundary>
         <DeviceWrapper>
           <Layout>
-            <ErrorBoundary>
+            <ErrorBoundary fallback={<div>Something went wrong. Please try refreshing the page.</div>}>
               <Component {...pageProps} />
             </ErrorBoundary>
             <Toaster />
