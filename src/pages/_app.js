@@ -18,11 +18,22 @@ const ErrorFallback = ({ error }) => (
   </div>
 );
 
+const ServerErrorBoundary = ({ children }) => {
+  if (typeof window === 'undefined') {
+    return (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        {children}
+      </ErrorBoundary>
+    );
+  }
+  return children;
+};
+
 function MyApp({ Component, pageProps }) {
   console.log('MyApp is being rendered');
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ServerErrorBoundary>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {typeof window === 'undefined' ? (
           <Layout>
@@ -39,7 +50,7 @@ function MyApp({ Component, pageProps }) {
           </DynamicDeviceWrapper>
         )}
       </ThemeProvider>
-    </ErrorBoundary>
+    </ServerErrorBoundary>
   );
 }
 

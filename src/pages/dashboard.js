@@ -19,6 +19,9 @@ const ErrorFallback = ({ error }) => (
 
 const DashboardContent = () => {
   console.log('DashboardContent is being rendered');
+  if (typeof window === 'undefined') {
+    return <div>Loading dashboard...</div>;
+  }
   return (
     <DynamicCard>
       <DynamicCardHeader>
