@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const SplashScreen = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-b from-secondary to-primary">
+    <div className="flex items-center justify-center h-[700px] bg-gradient-to-b from-secondary to-primary">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -75,3 +75,27 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Add these new styles */
+@layer components {
+  .phone-container {
+    max-width: 375px;
+    height: 700px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .phone-content {
+    max-width: 375px;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+/* Disable responsive adjustments */
+.phone-container {
+  width: 375px;
+  height: 700px;
+}
