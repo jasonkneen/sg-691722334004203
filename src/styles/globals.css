@@ -75,3 +75,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Device-specific styles */
+@media (max-width: 375px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  html {
+    font-size: 18px;
+  }
+}

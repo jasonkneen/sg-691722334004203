@@ -5,13 +5,13 @@ import { ThemeToggle } from './ThemeToggle';
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col dark:bg-gray-900 dark:text-white">
+    <div className="flex flex-col h-full dark:bg-gray-900 dark:text-white">
       <header className="bg-background border-b border-border p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Fishing Journal</h1>
         <ThemeToggle />
       </header>
-      <main className="flex-grow">{children}</main>
-      <nav className="bg-background border-t border-border">
+      <main className="flex-grow overflow-auto">{children}</main>
+      <nav className="bg-background border-t border-border mt-auto">
         <div className="container mx-auto px-4">
           <ul className="flex justify-around py-2">
             <li>
