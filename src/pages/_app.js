@@ -11,7 +11,9 @@ export default function App({ Component, pageProps }) {
       <ErrorBoundary>
         <DeviceWrapper>
           <Layout>
-            <Component {...pageProps} />
+            <ErrorBoundary>
+              <Component {...pageProps} />
+            </ErrorBoundary>
             <Toaster />
           </Layout>
         </DeviceWrapper>

@@ -74,7 +74,7 @@ export default function Home() {
       ) : entries.length === 0 ? (
         <div className="text-center text-muted-foreground">No entries found. Add your first catch!</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {entries.map((entry) => (
             <motion.div
               key={entry.id}
@@ -100,7 +100,7 @@ export default function Home() {
         </div>
       )}
       <motion.div
-        className="fixed bottom-4 right-4"
+        className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
